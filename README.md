@@ -1,4 +1,8 @@
-### Hi there 👋
+### Welcome to Chen-Yang's GitHub Page! 👋
+
+My personal website is here: [website](https://chenyangsu.github.io/) 🌐 
+
+I'm **Chen-Yang Su** and I'm a 1st year **Phd student** at McGill University in [Quantitative Life Sciences](https://www.mcgill.ca/qls/), an interdisciplinary program where we tackle challenging life science problems using quantitative approaches.
 
 <!--
 **chenyangsu/chenyangsu** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
