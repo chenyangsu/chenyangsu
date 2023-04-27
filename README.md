@@ -1,7 +1,5 @@
 <!-- Your title -->
 
-<!--
-
 # Welcome to Chen-Yang's GitHub Page! 👋
 
 My personal website is here: [website](https://chenyangsu.github.io/) 🌐 
@@ -19,8 +17,6 @@ You can use the website to generate badges: https://shields.io/
 [![Outlook](https://img.shields.io/badge/-Outlook-0078D4?style=flat&logo=Microsoft-Outlook&logoColor=white)](mailto:chen-yang.su@mail.mcgill.ca)
 [![ResearchGate](https://img.shields.io/badge/-ResearchGate-green?style=flat&logo=ResearchGate&logoColor=white)](https://www.researchgate.net/profile/Chen-Yang-Su)
 [![GoogleScholar](https://img.shields.io/badge/-Google%20Scholar-9cf?style=flat&logo=Google&logoColor=white)](https://scholar.google.com/citations?user=KJGE-kYAAAAJ&hl=en)
-
--->
 
 <!--
 **chenyangsu/chenyangsu** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
