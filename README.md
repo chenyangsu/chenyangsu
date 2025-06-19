@@ -4,7 +4,7 @@
 
 My personal website is here: [website](https://chenyangsu.github.io/) 🌐 
 
-I'm **Chen-Yang Su** and I'm a 3rd year **PhD student** at McGill University in [Quantitative Life Sciences](https://www.mcgill.ca/qls/), an interdisciplinary program where we tackle challenging life science problems using quantitative approaches.
+I'm **Chen-Yang Su** and I'm a 3rd year **PhD candidate** at McGill University in [Quantitative Life Sciences](https://www.mcgill.ca/qls/), an interdisciplinary program where we tackle challenging life science problems using quantitative approaches.
 
 <!-- Your badges
 You can use the website to generate badges: https://shields.io/
