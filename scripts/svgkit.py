@@ -14,8 +14,7 @@ FONT_DIR = Path(__file__).parent / ".fonts"
 
 # SVG family name -> weight -> Google Fonts css2 family spec. All are SIL Open Font License.
 FACES = {
-    "Serif Display": {"700": "Source+Serif+4:opsz,wght@60,700"},
-    "Serif TC": {"500": "Noto+Serif+TC:wght@500"},
+    "Geist": {"700": "Geist:wght@700"},
     "Sans TC": {"500": "Noto+Sans+TC:wght@500"},
     "Lato": {"400": "Lato:wght@400"},
     "Plex Mono": {"400": "IBM+Plex+Mono:wght@400", "500": "IBM+Plex+Mono:wght@500", "600": "IBM+Plex+Mono:wght@600"},

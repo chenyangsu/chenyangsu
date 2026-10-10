@@ -13,8 +13,8 @@ INK, INK2, MUTED = "#f0f3f6", "#c9d1d9", "#7d8590"
 BLUE, GREEN, GOLD = "#79b0ff", "#56d364", "#e3b341"
 
 NAME, NAME_TC, TAGLINE = "Chen-Yang Su", "蘇震洋", "Evals · Agents · AI for Science"
-NAME_FONT = ("Serif Display", "700", -0.5)  # family, weight, letter-spacing at 52 px
-NAME_TC_FONT = ("Serif TC", "500")
+NAME_FONT = ("Geist", "700", -1.2)  # family, weight, letter-spacing at 52 px
+NAME_TC_FONT = ("Sans TC", "500")
 ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science · Oct 2026–")
 COMMAND = "evals run --subject chen-yang-su"
 ROWS = [  # (call, result) printed by the trace, one per line
