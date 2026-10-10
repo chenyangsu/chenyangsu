@@ -22,6 +22,7 @@ COMMAND = "evals run --subject chen-yang-su"
 ROWS = [  # (call, result) printed by the trace; a tuple result wraps onto extra lines
     ("focus()", "AI agents for science · outcome-graded evals"),
     ("domain()", "human genetics · proteomics · drug targets"),
+    ("stack()", "PyTorch · vLLM · Slurm · Claude Agent SDK"),
     ("writing()", "essays on luck, rejection and ambition"),
     ("training()", "PhD & MSc, McGill · RL at Mila"),
     ("path()", ("Kaohsiung → Arlington → Bellevue → Victoria", "→ Vancouver → Montréal → Palo Alto")),
@@ -125,11 +126,15 @@ LINKS = {  # button -> its colour; order is the order in the README
 }
 
 def hero():
-    s = Svg(1000, 400, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
+    x0, y, step, wrap_h, size = 452, 96, 34, 21, 14  # trace layout
+    pass_y = y + 2 + sum(step + (len(lines(r)) - 1) * wrap_h for _, r in ROWS) + step + 14
+    H = max(400, pass_y + 36 + 30)  # the card grows with the trace; the quote line sits under PASS
+    dy = (H - 400) / 2  # keeps the identity block centred
+    s = Svg(1000, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
                        "Biomedical Data Science. Drawn as an agent evaluation trace over his profile, then the cursor "
                        "types short motivational quotes.")
     s.css.append(TRACE_CSS)
-    s.add(f'<rect x="0.5" y="0.5" width="999" height="399" rx="12" fill="{BG}" stroke="{LINE}"/>')
+    s.add(f'<rect x="0.5" y="0.5" width="999" height="{H - 1}" rx="12" fill="{BG}" stroke="{LINE}"/>')
     s.add(f'<path d="M12.5 .5h975a12 12 0 0 1 12 12v27.5H.5V12.5a12 12 0 0 1 12-12z" fill="{BAR}"/>')
     s.add(f'<rect x="1" y="40" width="998" height="1" fill="{LINE}"/>')
     s.text(24, 25, "~/chenyangsu", "Plex Mono", "500", 13, INK2)
@@ -138,15 +143,14 @@ def hero():
     # identity, left
     fam, wt, tr = NAME_FONT
     name_size = min(52, 52 * 350 / width(NAME, fam, wt, 52, tr))  # wide faces shrink to stay left of the divider
-    s.text(40, 158, NAME, fam, wt, round(name_size, 1), INK, tracking=tr)
-    s.text(42, 200, NAME_TC, *NAME_TC_FONT, 26, MUTED)
-    s.text(42, 242, TAGLINE, "Plex Mono", "500", 15, BLUE)
-    s.text(42, 282, ROLE[0], "Lato", "400", 15.5, INK2)
-    s.text(42, 305, ROLE[1], "Lato", "400", 15.5, INK2)
-    s.add(f'<rect x="420" y="72" width="1" height="296" fill="{LINE}"/>')
+    s.text(40, 158 + dy, NAME, fam, wt, round(name_size, 1), INK, tracking=tr)
+    s.text(42, 200 + dy, NAME_TC, *NAME_TC_FONT, 26, MUTED)
+    s.text(42, 242 + dy, TAGLINE, "Plex Mono", "500", 15, BLUE)
+    s.text(42, 282 + dy, ROLE[0], "Lato", "400", 15.5, INK2)
+    s.text(42, 305 + dy, ROLE[1], "Lato", "400", 15.5, INK2)
+    s.add(f'<rect x="420" y="72" width="1" height="{H - 104}" fill="{LINE}"/>')
 
     # trace, right: lines fade in one after another
-    x0, y, step, wrap_h, size = 452, 96, 34, 21, 14
     xr = x0 + 18 + max(width(c, "Plex Mono", "500", size) for c, _ in ROWS) + 22
     right = max(xr + width(t, "Plex Mono", "400", size) for _, r in ROWS for t in lines(r))
     assert right <= 972, f"trace overflows the card: right edge {right:.0f}px"
@@ -166,7 +170,7 @@ def hero():
         s.add("</g>")
         yy += (len(lines(result)) - 1) * wrap_h
     yy += step + 14
-    assert yy + 22 + 18 <= 392, f"trace runs off the bottom of the card: {yy}"
+    assert yy == pass_y
     s.add(f'<g class="l" style="animation-delay:{0.9 + len(ROWS) * 0.45:.2f}s">')
     s.add(f'<rect x="{x0}" y="{yy - 17}" width="56" height="25" rx="4" fill="#12301c"/>')
     s.text(x0 + 28, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
