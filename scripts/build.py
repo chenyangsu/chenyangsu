@@ -3,6 +3,9 @@
 Every fact drawn here is taken from chenyangsu.github.io; edit ROWS or LINKS, rerun, commit the SVGs.
 """
 import html
+import os
+import random
+import textwrap
 from pathlib import Path
 
 import icons
@@ -35,7 +38,7 @@ def lines(result):
 
 
 # typed at the cursor once the trace has finished, one after another, forever
-QUOTES = [  # Silicon Valley founders, each with a documented source
+QUOTES = [  # Silicon Valley founders and investors; each traced to an essay, book, talk or post
     ("Make something people want.", "Paul Graham"),
     ("Stay hungry. Stay foolish.", "Steve Jobs"),
     ("It's time to build.", "Marc Andreessen"),
@@ -45,19 +48,129 @@ QUOTES = [  # Silicon Valley founders, each with a documented source
     ("Only the paranoid survive.", "Andy Grove"),
     ("Live in the future, then build what's missing.", "Paul Graham"),
     ("Competition is for losers.", "Peter Thiel"),
+    ("Seek wealth, not money or status.", "Naval Ravikant"),
+    ("Compound yourself.", "Sam Altman"),
+    ("Simple can be harder than complex.", "Steve Jobs"),
+    ("Software is eating the world.", "Marc Andreessen"),
+    ("Every moment in business happens only once.", "Peter Thiel"),
+    ("Startups rarely die in mid keystroke. So keep typing!", "Paul Graham"),
+    ("Move fast and break things.", "Mark Zuckerberg"),
+    ("Have a healthy disregard for the impossible.", "Larry Page"),
+    ("I wish upon you ample doses of pain and suffering.", "Jensen Huang"),
+    ("Play long-term games with long-term people.", "Naval Ravikant"),
+    ("Have almost too much self-belief.", "Sam Altman"),
+    ("Design is how it works.", "Steve Jobs"),
+    ("The only thing that matters is getting to product/market fit.", "Marc Andreessen"),
+    ("Success breeds complacency. Complacency breeds failure.", "Andy Grove"),
+    ("Default alive or default dead?", "Paul Graham"),
+    ("What important truth do very few people agree with you on?", "Peter Thiel"),
+    ("Get out of the building.", "Steve Blank"),
+    ("The best way to predict the future is to invent it.", "Alan Kay"),
+    ("Failure is an option here.", "Elon Musk"),
+    ("Keep looking. Don't settle.", "Steve Jobs"),
+    ("Learn to sell. Learn to build.", "Naval Ravikant"),
+    ("It's easier to do a hard startup than an easy startup.", "Sam Altman"),
+    ("Don't be encumbered by history. Go off and do something wonderful.", "Robert Noyce"),
+    ("Relentlessly resourceful.", "Paul Graham"),
+    ("Ideas don't come out fully formed.", "Mark Zuckerberg"),
+    ("The Struggle is where greatness comes from.", "Ben Horowitz"),
+    ("You never lose a dream. It just incubates as a hobby.", "Larry Page"),
+    ("Greatness comes from character.", "Jensen Huang"),
+    ("Code and media are permissionless leverage.", "Naval Ravikant"),
+    ("Focusing is about saying no.", "Steve Jobs"),
+    ("Monopoly is the condition of every successful business.", "Peter Thiel"),
+    ("In a startup, absolutely nothing happens unless you make it happen.", "Marc Andreessen"),
+    ("Launch fast.", "Paul Graham"),
+    ("Learn to think independently.", "Sam Altman"),
+    ("The only way to win is to learn faster than anyone else.", "Eric Ries"),
+    ("Let chaos reign, then rein in chaos.", "Andy Grove"),
+    ("Work like hell.", "Elon Musk"),
+    ("Strong opinions, weakly held.", "Paul Saffo"),
+    ("It's more fun to be a pirate than to join the navy.", "Steve Jobs"),
+    ("Specific knowledge is found by pursuing your genuine curiosity.", "Naval Ravikant"),
+    ("The best startup ideas seem at first like bad ideas.", "Paul Graham"),
+    ("Your biggest risk isn't failing, it's getting too comfortable.", "Drew Houston"),
+    ("Run, don't walk.", "Jensen Huang"),
+    ("We wanted flying cars, instead we got 140 characters.", "Peter Thiel"),
+    ("Make it easy to take risks.", "Sam Altman"),
+    ("Hard things are hard because there are no easy answers or recipes.", "Ben Horowitz"),
+    ("You just have to get started.", "Mark Zuckerberg"),
+    ("Keep your identity small.", "Paul Graham"),
+    ("Innovation is saying no to 1,000 things.", "Steve Jobs"),
+    ("Escape competition through authenticity.", "Naval Ravikant"),
+    ("No business plan survives first contact with customers.", "Steve Blank"),
+    ("Optimism is an essential ingredient of innovation.", "Robert Noyce"),
+    ("What would you do if you weren't afraid?", "Sheryl Sandberg"),
+    ("Be hard to compete with.", "Sam Altman"),
+    ("Let your idea evolve.", "Paul Graham"),
+    ("Point of view is worth 80 IQ points.", "Alan Kay"),
+    ("Do not tolerate brilliant jerks.", "Reed Hastings"),
+    ("Ideas are easy. Execution is everything.", "John Doerr"),
+    ("The only way to do great work is to love what you do.", "Steve Jobs"),
+    ("Become the best in the world at what you do.", "Naval Ravikant"),
+    ("It is often easier to make progress on mega-ambitious dreams.", "Larry Page"),
+    ("The hard thing isn't setting a big, hairy, audacious goal.", "Ben Horowitz"),
+    ("Better to make a few users love you than a lot ambivalent.", "Paul Graham"),
+    ("Get good at sales.", "Sam Altman"),
+    ("Make meaning.", "Guy Kawasaki"),
+    ("Build, measure, learn.", "Eric Ries"),
+    ("Find your tennis ball.", "Drew Houston"),
+    ("You can't connect the dots looking forward.", "Steve Jobs"),
+    ("Earn with your mind, not your time.", "Naval Ravikant"),
+    ("Startup = growth.", "Paul Graham"),
+    ("Run towards the hardest problems.", "Lisa Su"),
+    ("Your title makes you a manager. Your people make you a leader.", "Bill Campbell"),
+    ("The days are long but the decades are short.", "Sam Altman"),
+    ("You make what you measure.", "Paul Graham"),
+    ("Have the courage to follow your heart and intuition.", "Steve Jobs"),
+    ("Leverage is a force multiplier for your judgement.", "Naval Ravikant"),
+    ("Don't worry, be crappy.", "Guy Kawasaki"),
+    ("Be bold.", "Sam Altman"),
+    ("Get ramen profitable.", "Paul Graham"),
+    ("Fast iteration can make up for a lot.", "Sam Altman"),
+    ("Mean people fail.", "Paul Graham"),
+    ("Play iterated games.", "Naval Ravikant"),
+    ("Be willful.", "Sam Altman"),
+    ("The way to figure out what to work on is by working.", "Paul Graham"),
+    ("Reading is faster than listening. Doing is faster than watching.", "Naval Ravikant"),
+    ("Build a network.", "Sam Altman"),
+    ("Don't get demoralized.", "Paul Graham"),
+    ("Communicate clearly and concisely.", "Sam Altman"),
+    ("Develop a habit of working on your own projects.", "Paul Graham"),
+    ("You're not going to get rich renting out your time.", "Naval Ravikant"),
+    ("Be internally driven.", "Sam Altman"),
+    ("The persistent are attached to the goal.", "Paul Graham"),
+    ("Arm yourself with specific knowledge, accountability, and leverage.", "Naval Ravikant"),
+    ("Don't give up.", "Paul Graham"),
 ]
-QUOTE_START = 3.6  # seconds, once the PASS line is in
+
+
+def quote_order():
+    """QUOTES in a fresh random order when QUOTE_SEED is set (the hourly workflow sets it, so each hour
+    starts on a different quote); in list order otherwise, so local builds stay byte-identical."""
+    order = list(QUOTES)
+    seed = os.environ.get("QUOTE_SEED")
+    if seed:
+        random.Random(seed).shuffle(order)
+    return order
+QUOTE_START = 3.9  # seconds, once the PASS line is in
 TYPE, HOLD, ERASE, GAP = 0.05, 2.8, 0.016, 0.5  # per character, pause, per character, pause
 
 
-def quote_loop(s, x, baselines, size, cursor, one_line):
+def quote_loop(s, x, baselines, size, cursor, join_author):
     """Type, hold and erase each quote at the cursor, looping forever. Uses SMIL (<animate>), which
     GitHub's image viewer runs: each character sits at a fixed x, and a clip rectangle widens one
     character at a time, so font hinting at small sizes cannot shift or hide characters.
-    one_line: "quote — author" at baselines[0]; otherwise the author goes on a second line.
-    cursor: (width, height, rise above the baseline)."""
+    Quotes wrap to fit the card; the author follows " — " on the same line when join_author and it fits,
+    otherwise it gets its own line. cursor: (width, height, rise above the baseline)."""
     cw = width("M", "Plex Mono", "400", size)
-    quotes = [[f"{q} — {a}"] if one_line else [q, f"— {a}"] for q, a in QUOTES]
+    max_chars = int((s.w - 18 - x) // cw)
+    quotes = []
+    for q, a in quote_order():
+        joined = f"{q} — {a}"
+        ls = [joined] if join_author and len(joined) <= max_chars else textwrap.wrap(q, max_chars) + [f"— {a}"]
+        assert len(ls) <= len(baselines), f"quote needs {len(ls)} lines: {q}"
+        quotes.append(ls)
 
     # frames: (time, quote index, characters shown on each line); each holds until the next
     frames, t = [(0.0, None, ())], 0.0
@@ -79,7 +192,7 @@ def quote_loop(s, x, baselines, size, cursor, one_line):
         """series: [(time, value)]; keep only the frames where the value changes."""
         kept = [series[0]] + [b for a, b in zip(series, series[1:]) if b[1] != a[1]]
         return (f'<animate attributeName="{attr}" calcMode="discrete" begin="{QUOTE_START}s" dur="{T:.3f}s" '
-                f'repeatCount="indefinite" keyTimes="{";".join(f"{tt / T:.5f}" for tt, _ in kept)}" '
+                f'repeatCount="indefinite" keyTimes="{";".join(f"{tt / T:.6f}" for tt, _ in kept)}" '
                 f'values="{";".join(str(v) for _, v in kept)}"/>')
 
     s.add('<g class="q">')
@@ -89,8 +202,8 @@ def quote_loop(s, x, baselines, size, cursor, one_line):
             series = [(tt, f"{(c[j] if qi == i else 0) * cw:.1f}") for tt, qi, c in frames]
             s.add(f'<clipPath id="{cid}"><rect x="{x}" y="{baselines[j] - size}" width="0" height="{size * 1.5}">'
                   f'{animate("width", series)}</rect></clipPath>')
-            # quote in ink, author muted; on one line the author follows " — "
-            parts = line.split(" — ") if one_line else [line]
+            # quote in ink, author muted; on a joined line the author follows " — "
+            parts = [line] if line.startswith("— ") else line.split(" — ")
             k = 0
             for n, part in enumerate(parts):
                 text = (" — " if n else "") + part
@@ -101,7 +214,6 @@ def quote_loop(s, x, baselines, size, cursor, one_line):
                       f'font-size="{size}" fill="{MUTED if muted else INK}" clip-path="url(#{cid})" xml:space="preserve">'
                       f'{html.escape(text)}</text>')
                 k += len(text)
-            assert x + len(line) * cw <= s.w - 18, f"quote too wide for the card: {line}"
     # the cursor rides at the end of the text being typed
     cwid, chgt, rise = cursor
 
@@ -128,7 +240,7 @@ LINKS = {  # button -> its colour; order is the order in the README
 def hero():
     x0, y, step, wrap_h, size = 452, 96, 34, 21, 14  # trace layout
     pass_y = y + 2 + sum(step + (len(lines(r)) - 1) * wrap_h for _, r in ROWS) + step + 14
-    H = max(400, pass_y + 36 + 30)  # the card grows with the trace; the quote line sits under PASS
+    H = max(400, pass_y + 36 + 21 + 28)  # the card grows with the trace; two quote lines sit under PASS
     dy = (H - 400) / 2  # keeps the identity block centred
     s = Svg(1000, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
                        "Biomedical Data Science. Drawn as an agent evaluation trace over his profile, then the cursor "
@@ -176,7 +288,7 @@ def hero():
     s.text(x0 + 28, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
     s.text(x0 + 70, yy, VERDICT, "Plex Mono", "400", size, MUTED)
     s.add("</g>")
-    quote_loop(s, x0, [yy + 36], size, (9, 18, 14), one_line=True)
+    quote_loop(s, x0, [yy + 36, yy + 57], 13, (8.5, 17, 13), join_author=True)
     (ASSETS / "hero.svg").write_text(s.render())
 
 
@@ -191,7 +303,7 @@ def hero_mobile():
     """Portrait hero for phone widths: identity on top, each trace result under its call."""
     W, PAD, size = 380, 20, 12.5
     rows_h = sum(46 + 19 * (len(lines(r)) - 1) for _, r in ROWS)
-    H = 262 + rows_h + 100
+    H = 262 + rows_h + 119
     s = Svg(W, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
                   "Biomedical Data Science. Drawn as an agent evaluation trace over his profile, then the cursor "
                        "types short motivational quotes.")
@@ -230,7 +342,7 @@ def hero_mobile():
     s.text(PAD + 25, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
     s.text(PAD + 62, yy, VERDICT, "Plex Mono", "400", 12, MUTED)
     s.add("</g>")
-    quote_loop(s, PAD, [yy + 31, yy + 50], 11.5, (8, 16, 12), one_line=False)
+    quote_loop(s, PAD, [yy + 31, yy + 50, yy + 69], 11.5, (8, 16, 12), join_author=False)
     (ASSETS / "hero-mobile.svg").write_text(s.render())
 
 
