@@ -74,7 +74,7 @@ class Svg:
     def _fontfaces(self):
         rules = []
         for (family, weight), chars in sorted(self.used.items()):
-            font = TTFont(_path(family, weight))
+            font = TTFont(_path(family, weight), recalcTimestamp=False)
             opts = subset.Options()
             opts.flavor = "woff"
             opts.name_IDs = []
