@@ -17,14 +17,18 @@ NAME_FONT = ("Geist", "700", -1.2)  # family, weight, letter-spacing at 52 px
 NAME_TC_FONT = ("Sans TC", "500")
 ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science")
 COMMAND = "evals run --subject chen-yang-su"
-ROWS = [  # (call, result) printed by the trace, one per line
+ROWS = [  # (call, result) printed by the trace; a tuple result wraps onto extra lines
     ("focus()", "AI agents for science · outcome-graded evals"),
     ("domain()", "human genetics · proteomics · drug targets"),
     ("writing()", "essays on luck, rejection and ambition"),
     ("training()", "PhD & MSc, McGill · RL at Mila"),
-    ("path()", "Kaohsiung → Vancouver → Montréal → Palo Alto"),
+    ("path()", ("Kaohsiung → Arlington → Bellevue → Victoria", "→ Vancouver → Montréal → Palo Alto")),
 ]
 VERDICT = f"{len(ROWS)}/{len(ROWS)} checks · graded on end state"
+
+
+def lines(result):
+    return (result,) if isinstance(result, str) else result
 
 LINKS = ["website", "blog", "linkedin", "x", "bluesky", "email"]
 
@@ -49,23 +53,27 @@ def hero():
     s.add(f'<rect x="420" y="72" width="1" height="296" fill="{LINE}"/>')
 
     # trace, right: lines fade in one after another
-    x0, y, step, size = 452, 96, 36, 14
+    x0, y, step, wrap_h, size = 452, 96, 34, 21, 14
     xr = x0 + 18 + max(width(c, "Plex Mono", "500", size) for c, _ in ROWS) + 22
-    right = max(xr + width(r, "Plex Mono", "400", size) for _, r in ROWS)
+    right = max(xr + width(t, "Plex Mono", "400", size) for _, r in ROWS for t in lines(r))
     assert right <= 972, f"trace overflows the card: right edge {right:.0f}px"
 
     s.add('<g class="l" style="animation-delay:.2s">')
     w = s.text(x0, y, "$", "Plex Mono", "600", size, GREEN)
     s.text(x0 + w + 10, y, COMMAND, "Plex Mono", "400", size, INK)
     s.add("</g>")
+    yy = y + 2
     for i, (call, result) in enumerate(ROWS):
-        yy = y + (i + 1) * step + 2
+        yy += step
         s.add(f'<g class="l" style="animation-delay:{0.7 + i * 0.45:.2f}s">')
         s.add(f'<circle cx="{x0 + 4.5}" cy="{yy - 4.5}" r="4" fill="{GOLD}"/>')
         s.text(x0 + 18, yy, call, "Plex Mono", "500", size, BLUE)
-        s.text(xr, yy, result, "Plex Mono", "400", size, INK2)
+        for j, t in enumerate(lines(result)):
+            s.text(xr, yy + j * wrap_h, t, "Plex Mono", "400", size, INK2)
         s.add("</g>")
-    yy = y + (len(ROWS) + 1) * step + 16
+        yy += (len(lines(result)) - 1) * wrap_h
+    yy += step + 14
+    assert yy + 22 + 18 <= 392, f"trace runs off the bottom of the card: {yy}"
     s.add(f'<g class="l" style="animation-delay:{0.9 + len(ROWS) * 0.45:.2f}s">')
     s.add(f'<rect x="{x0}" y="{yy - 17}" width="56" height="25" rx="4" fill="#12301c"/>')
     s.text(x0 + 28, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
@@ -84,7 +92,7 @@ TRACE_CSS = (".l{opacity:0;animation:in .35s ease-out forwards}"
 def hero_mobile():
     """Portrait hero for phone widths: identity on top, each trace result under its call."""
     W, PAD, size = 380, 20, 12.5
-    rows_h = len(ROWS) * 46
+    rows_h = sum(46 + 19 * (len(lines(r)) - 1) for _, r in ROWS)
     H = 262 + rows_h + 78
     s = Svg(W, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
                   "Biomedical Data Science. Drawn as an agent evaluation trace over his profile.")
@@ -107,15 +115,17 @@ def hero_mobile():
     w = s.text(PAD, y, "$", "Plex Mono", "600", size, GREEN)
     s.text(PAD + w + 8, y, COMMAND, "Plex Mono", "400", size, INK)
     s.add("</g>")
+    yy = y + 30
     for i, (call, result) in enumerate(ROWS):
-        yy = y + 30 + i * 46
         s.add(f'<g class="l" style="animation-delay:{0.7 + i * 0.45:.2f}s">')
         s.add(f'<circle cx="{PAD + 4}" cy="{yy - 4}" r="3.5" fill="{GOLD}"/>')
         s.text(PAD + 16, yy, call, "Plex Mono", "500", size, BLUE)
-        rw = s.text(PAD + 16, yy + 19, result, "Plex Mono", "400", 12, INK2)
-        assert PAD + 16 + rw <= W - PAD + 4, f"mobile trace overflows: {result}"
+        for j, t in enumerate(lines(result)):
+            rw = s.text(PAD + 16, yy + 19 * (j + 1), t, "Plex Mono", "400", 12, INK2)
+            assert PAD + 16 + rw <= W - PAD + 4, f"mobile trace overflows: {t}"
         s.add("</g>")
-    yy = y + 30 + len(ROWS) * 46 + 4
+        yy += 46 + 19 * (len(lines(result)) - 1)
+    yy += 4
     s.add(f'<g class="l" style="animation-delay:{0.9 + len(ROWS) * 0.45:.2f}s">')
     s.add(f'<rect x="{PAD}" y="{yy - 16}" width="50" height="23" rx="4" fill="#12301c"/>')
     s.text(PAD + 25, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")

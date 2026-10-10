@@ -15,9 +15,5 @@
 </p>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chenyangsu/chenyangsu/output/snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/chenyangsu/chenyangsu/output/snake-light.svg" />
-    <img alt="A snake eating the past year of Chen-Yang Su's GitHub contribution graph" src="https://raw.githubusercontent.com/chenyangsu/chenyangsu/output/snake-light.svg" />
-  </picture>
+  <img src="https://raw.githubusercontent.com/chenyangsu/chenyangsu/output/snake.svg" width="100%" alt="A snake eating the past year of Chen-Yang Su's GitHub contribution graph, with the year's contribution count and streaks." />
 </p>
