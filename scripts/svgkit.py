@@ -17,7 +17,6 @@ FACES = {
     "Serif Display": {"700": "Source+Serif+4:opsz,wght@60,700"},
     "Serif TC": {"500": "Noto+Serif+TC:wght@500"},
     "Lato": {"400": "Lato:wght@400"},
-    "Pixel": {"700": "Pixelify+Sans:wght@700"},
     "Plex Mono": {"400": "IBM+Plex+Mono:wght@400", "500": "IBM+Plex+Mono:wght@500", "600": "IBM+Plex+Mono:wght@600"},
 }
 _cache = {}

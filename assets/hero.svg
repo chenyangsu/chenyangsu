@@ -47,7 +47,7 @@
 <g class="l" style="animation-delay:2.50s">
 <circle cx="456.5" cy="273.5" r="4" fill="#e3b341"/>
 <text x="470.0" y="278.0" font-family="&apos;Plex Mono&apos;" font-weight="500" font-size="14" fill="#79b0ff" text-anchor="start">path()</text>
-<text x="576.0" y="278.0" font-family="&apos;Plex Mono&apos;" font-weight="400" font-size="14" fill="#c9d1d9" text-anchor="start">Kaohsiung → Vancouver → Montréal → Stanford</text>
+<text x="576.0" y="278.0" font-family="&apos;Plex Mono&apos;" font-weight="400" font-size="14" fill="#c9d1d9" text-anchor="start">Kaohsiung → Vancouver → Montréal → Palo Alto</text>
 </g>
 <g class="l" style="animation-delay:3.15s">
 <rect x="452" y="311" width="56" height="25" rx="4" fill="#12301c"/>

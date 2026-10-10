@@ -20,67 +20,11 @@ ROWS = [  # (call, result) printed by the trace, one per line
     ("domain()", "human genetics · proteomics · drug targets"),
     ("stack()", "Python · R · PyTorch · vLLM · Claude API"),
     ("training()", "PhD & MSc, McGill · RL at Mila"),
-    ("path()", "Kaohsiung → Vancouver → Montréal → Stanford"),
+    ("path()", "Kaohsiung → Vancouver → Montréal → Palo Alto"),
 ]
 VERDICT = f"{len(ROWS)}/{len(ROWS)} checks · graded on end state"
 
 LINKS = ["website", "blog", "linkedin", "x", "bluesky", "email"]
-
-# The three class cards: (tag, title, class, colour, sprite, flavour text, abilities)
-CLASSES = [
-    ("MAIN CLASS", "Agents & Evals", "Artificer", BLUE, "robot",
-     "Builds agents that query databases, read papers and act in simulated clinical records.",
-     ["Tool-calling agents", "Outcome-graded evals", "Bootstrapped CIs"]),
-    ("SUBCLASS", "Human Genetics", "Alchemist", GREEN, "helix",
-     "Turns GWAS and plasma proteomics into ranked drug targets.",
-     ["Mendelian randomization", "Colocalization", "Multi-ancestry pQTL"]),
-    ("SIDE QUEST", "Teaching & Service", "Sage", GOLD, "book",
-     "Teaches AI for multi-omics data and Mendelian randomization workshops.",
-     ["Lectures & workshops", "Peer review", "Open teaching notebooks"]),
-]
-
-# 16x16 pixel sprites; one character per pixel, "." is empty
-SPRITES = {
-    "robot": [
-        "......kyyk......",
-        "......kyyk......",
-        ".......kk.......",
-        "..kkkkkkkkkkkk..",
-        ".kbbbbbbbbbbbbk.",
-        "kbbkkkkkkkkkkbbk",
-        "kbbkddddddddkbbk",
-        "kBbkdccddccdkbBk",
-        "kBbkdccddccdkbBk",
-        "kbbkddddddddkbbk",
-        "kbbkkkkkkkkkkbbk",
-        ".kbbbbbbbbbbbbk.",
-        ".kbbbwwwwwwbbbk.",
-        "..kBBBBBBBBBBk..",
-        "...kkkkkkkkkk...",
-        "....kk....kk....",
-    ],
-    "book": [
-        "................",
-        "................",
-        ".kkkkk....kkkkk.",
-        "kwwwwwkkkkwwwwwk",
-        "kwllllwkkwllllwk",
-        "kwwwwwwkkwwwwwwk",
-        "kwlllwwkkwllllwk",
-        "kwwwwwwkkwwwwwwk",
-        "kwllllwkkwlllwwk",
-        "kwwwwwwkkwwwwwwk",
-        "kwlllwwkkwllllwk",
-        "kwwwwwwkkwwwwwwk",
-        "kooooookkooroook",
-        ".kkkkkkkkkkrkkk.",
-        "...........r....",
-        "..........r.r...",
-    ],
-}
-PIXEL = {"k": "#05080c", "y": GOLD, "b": BLUE, "B": "#3b78c9", "d": "#0b1a2e", "c": "#7ee8ff", "w": "#f0f3f6",
-         "l": "#9aa7b6", "o": "#b7791f", "r": "#ff6b6b", "g": GREEN, "G": "#2f9e44", "p": "#ff8fb1", "P": "#c4547a"}
-
 
 def hero():
     s = Svg(1000, 400, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
@@ -125,111 +69,6 @@ def hero():
     s.add("</g>")
     s.add(f'<rect class="cur" x="{x0}" y="{yy + 22}" width="9" height="18" fill="{INK2}"/>')
     (ASSETS / "hero.svg").write_text(s.render())
-
-
-def helix():
-    """A 16x16 DNA double helix: two 2-px strands, gold/cyan base pairs across each lobe."""
-    a = [7, 9, 11, 12, 12, 11, 9, 7, 5, 3, 2, 2, 3, 5, 7, 9]  # left edge of strand g per row
-    grid = [["."] * 16 for _ in range(16)]
-    for y, xa in enumerate(a):
-        xb = 14 - xa
-        if y in (2, 5, 9, 12):
-            lo, hi = min(xa, xb) + 2, max(xa, xb)
-            for x in range(lo, hi):
-                grid[y][x] = "y" if x < (lo + hi) / 2 else "c"
-        # at each crossing the strands take turns being in front
-        order = (("p", xb), ("g", xa)) if y in (6, 7, 8) else (("g", xa), ("p", xb))
-        for c, x in order:
-            grid[y][x] = grid[y][x + 1] = c
-    return ["".join(r) for r in grid]
-
-
-def sprite(s, x, y, rows, px):
-    """Draw a pixel sprite, merging horizontal runs of one colour into single rects."""
-    for j, row in enumerate(rows):
-        i = 0
-        while i < len(row):
-            c = row[i]
-            n = 1
-            while i + n < len(row) and row[i + n] == c:
-                n += 1
-            if c != ".":
-                s.add(f'<rect x="{x + i * px}" y="{y + j * px}" width="{n * px}" height="{px}" fill="{PIXEL[c]}"/>')
-            i += n
-
-
-def wrap(text, family, weight, size, maxw):
-    lines, cur = [], ""
-    for word in text.split():
-        trial = f"{cur} {word}".strip()
-        if cur and width(trial, family, weight, size) > maxw:
-            lines.append(cur)
-            cur = word
-        else:
-            cur = trial
-    return lines + [cur]
-
-
-def notched(x, y, w, h, n=6):
-    """Rectangle path with stepped pixel corners."""
-    return (f"M{x + 2 * n} {y}H{x + w - 2 * n}V{y + n}H{x + w - n}V{y + 2 * n}H{x + w}V{y + h - 2 * n}"
-            f"H{x + w - n}V{y + h - n}H{x + w - 2 * n}V{y + h}H{x + 2 * n}V{y + h - n}H{x + n}"
-            f"V{y + h - 2 * n}H{x}V{y + 2 * n}H{x + n}V{y + n}H{x + 2 * n}Z")
-
-
-def sparkle(s, x, y, px, colour):
-    s.add(f'<rect x="{x - px / 2}" y="{y - 1.5 * px}" width="{px}" height="{3 * px}" fill="{colour}"/>')
-    s.add(f'<rect x="{x - 1.5 * px}" y="{y - px / 2}" width="{3 * px}" height="{px}" fill="{colour}"/>')
-
-
-def party():
-    W, H, GAP, SHADOW = 306, 478, 31, 6
-    s = Svg(1000, H + SHADOW + 2, "Three character classes: main class Agents and Evals (Artificer), subclass Human "
-                                  "Genetics (Alchemist), side quest Teaching and Service (Sage).")
-    s.css.append(".bob{animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-5px)}}"
-                 ".tw{animation:tw 1.8s steps(2) infinite}@keyframes tw{50%{opacity:.25}}"
-                 "@media (prefers-reduced-motion:reduce){.bob,.tw{animation:none}}")
-    for k, (tag, title, cls, colour, art, flavour, abilities) in enumerate(CLASSES):
-        x = 1 + k * (W + GAP)
-        cx = x + W / 2
-        s.add(f'<path d="{notched(x + SHADOW, 1 + SHADOW, W, H)}" fill="#000" opacity=".35"/>')
-        s.add(f'<path d="{notched(x, 1, W, H)}" fill="#121a24" stroke="{colour}" stroke-width="3"/>')
-        s.add(f'<path d="{notched(x + 8, 9, W - 16, H - 16, 4)}" fill="none" stroke="{colour}" stroke-opacity=".3"/>')
-        # tag ribbon
-        tw = width(tag, "Plex Mono", "600", 13, 1.5) + 24
-        s.add(f'<rect x="{cx - tw / 2:.1f}" y="22" width="{tw:.1f}" height="24" fill="{colour}"/>')
-        s.text(cx, 39, tag, "Plex Mono", "600", 13, "#0b0f15", anchor="middle", tracking=1.5)
-        # sprite on a glow, gently bobbing, with twinkling sparkles
-        s.add(f'<circle cx="{cx}" cy="124" r="62" fill="{colour}" opacity=".10"/>')
-        s.add(f'<circle cx="{cx}" cy="124" r="44" fill="{colour}" opacity=".10"/>')
-        s.add(f'<rect x="{cx - 36}" y="186" width="72" height="6" fill="#000" opacity=".35"/>')
-        s.add(f'<g class="bob" style="animation-delay:{k * 0.4}s">')
-        sprite(s, cx - 48, 72, helix() if art == "helix" else SPRITES[art], 6)
-        s.add("</g>")
-        for i, (dx, dy) in enumerate(((-92, 84), (86, 70), (98, 150), (-84, 160))):
-            s.add(f'<g class="tw" style="animation-delay:{(i + k) * 0.45:.2f}s">')
-            sparkle(s, cx + dx, dy, 3 if i % 2 else 4, colour if i % 2 else "#f0f3f6")
-            s.add("</g>")
-        # name plate
-        s.text(cx, 232, title, "Pixel", "700", 25, INK, anchor="middle")
-        s.text(cx, 256, f"class · {cls}", "Plex Mono", "500", 13.5, colour, anchor="middle")
-        for i in range(0, W - 48, 10):
-            s.add(f'<rect x="{x + 24 + i}" y="272" width="5" height="2" fill="{colour}" opacity=".45"/>')
-        # flavour text
-        y = 300
-        for line in wrap(flavour, "Plex Mono", "400", 13.5, W - 56):
-            s.text(x + 24, y, line, "Plex Mono", "400", 13.5, INK2)
-            y += 20
-        # abilities
-        y += 14
-        s.text(x + 24, y, "ABILITIES", "Plex Mono", "600", 12, MUTED, tracking=1.5)
-        for a in abilities:
-            y += 25
-            s.add(f'<path d="M{x + 30} {y - 10}l5 5-5 5-5-5z" fill="{colour}"/>')
-            aw = s.text(x + 44, y, a, "Plex Mono", "500", 13.5, INK)
-            assert 44 + aw <= W - 24, f"ability too wide: {a}"
-        assert y <= H - 18, f"{title} card overflows: {y}"
-    (ASSETS / "classes.svg").write_text(s.render())
 
 
 TRACE_CSS = (".l{opacity:0;animation:in .35s ease-out forwards}"
@@ -280,48 +119,6 @@ def hero_mobile():
     (ASSETS / "hero-mobile.svg").write_text(s.render())
 
 
-def party_mobile():
-    """The three class cards stacked, sprite on the left, for phone widths."""
-    W, SHADOW, GAP, size = 380, 5, 18, 12
-    TX = 112  # left edge of the text column
-    cards, y0 = [], 1
-    for tag, title, cls, colour, art, flavour, abilities in CLASSES:
-        lines = wrap(flavour, "Plex Mono", "400", size, W - SHADOW - TX - 18)
-        h = 72 + len(lines) * 17 + 10 + len(abilities) * 19 + 12
-        cards.append((y0, h, tag, title, cls, colour, art, lines, abilities))
-        y0 += h + GAP
-    s = Svg(W, y0 - GAP + SHADOW + 1, "Three pixel-art RPG class cards: main class Agents and Evals (Artificer), "
-                                      "subclass Human Genetics (Alchemist), side quest Teaching and Service (Sage).")
-    s.css.append(".bob{animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-4px)}}"
-                 "@media (prefers-reduced-motion:reduce){.bob{animation:none}}")
-    for k, (top, h, tag, title, cls, colour, art, lines, abilities) in enumerate(cards):
-        cw = W - SHADOW - 1
-        s.add(f'<path d="{notched(1 + SHADOW, top + SHADOW, cw, h, 5)}" fill="#000" opacity=".35"/>')
-        s.add(f'<path d="{notched(1, top, cw, h, 5)}" fill="#121a24" stroke="{colour}" stroke-width="3"/>')
-        # tag and sprite in the left column
-        tw = width(tag, "Plex Mono", "600", 10.5, 1) + 14
-        s.add(f'<rect x="{56 - tw / 2:.1f}" y="{top + 14}" width="{tw:.1f}" height="19" fill="{colour}"/>')
-        s.text(56, top + 27.5, tag, "Plex Mono", "600", 10.5, "#0b0f15", anchor="middle", tracking=1)
-        s.add(f'<circle cx="56" cy="{top + 78}" r="38" fill="{colour}" opacity=".12"/>')
-        s.add(f'<g class="bob" style="animation-delay:{k * 0.4}s">')
-        sprite(s, 24, top + 46, helix() if art == "helix" else SPRITES[art], 4)
-        s.add("</g>")
-        # text column
-        s.text(TX, top + 34, title, "Pixel", "700", 19, INK)
-        s.text(TX, top + 54, f"class · {cls}", "Plex Mono", "500", size, colour)
-        y = top + 78
-        for line in lines:
-            s.text(TX, y, line, "Plex Mono", "400", size, INK2)
-            y += 17
-        y += 6
-        for a in abilities:
-            s.add(f'<path d="M{TX + 4} {y - 9}l4 4-4 4-4-4z" fill="{colour}"/>')
-            aw = s.text(TX + 14, y, a, "Plex Mono", "500", size, INK)
-            assert TX + 14 + aw <= cw - 10, f"mobile ability too wide: {a}"
-            y += 19
-    (ASSETS / "classes-mobile.svg").write_text(s.render())
-
-
 def link_button(name):
     """A CLI flag drawn as a button, e.g. --scholar; matches the hero's card."""
     size, pad, h = 14, 13, 32
@@ -337,8 +134,6 @@ if __name__ == "__main__":
     (ASSETS / "links").mkdir(parents=True, exist_ok=True)
     hero()
     hero_mobile()
-    party()
-    party_mobile()
     for name in LINKS:
         link_button(name)
     for f in sorted(ASSETS.rglob("*.svg")):
