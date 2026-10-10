@@ -18,10 +18,6 @@ I build AI agents that do scientific work, and the evaluations that test them. I
   <img src="assets/classes.svg" width="100%" alt="Three pixel-art RPG class cards. Main class: Agents and Evals (Artificer, a robot), building agents that query databases, read papers and act in clinical records. Subclass: Human Genetics (Alchemist, a DNA helix), turning GWAS and plasma proteomics into ranked drug targets. Side quest: Teaching and Service (Sage, an open book), teaching AI for multi-omics data and Mendelian randomization workshops." />
 </p>
 
-## Toolkit
-
-`Python` · `R` · `Bash` · `PyTorch` · `vLLM` · `Claude API` · `Claude Agent SDK` · `Slurm` · `Quarto`
-
 ## Activity
 
 <picture>
