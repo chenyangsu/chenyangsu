@@ -2,11 +2,14 @@
 
 Every fact drawn here is taken from chenyangsu.github.io; edit ROWS or LINKS, rerun, commit the SVGs.
 """
+import hashlib
+import re
 from pathlib import Path
 
 from svgkit import Svg, width
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
+README = ASSETS.parent / "README.md"
 
 BG, BAR, LINE = "#0b0f15", "#10161e", "#222a35"
 INK, INK2, MUTED = "#f0f3f6", "#c9d1d9", "#7d8590"
@@ -15,7 +18,7 @@ BLUE, GREEN, GOLD = "#79b0ff", "#56d364", "#e3b341"
 NAME, NAME_TC, TAGLINE = "Chen-Yang Su", "蘇震洋", "Evals · Agents · AI for Science"
 NAME_FONT = ("Geist", "700", -1.2)  # family, weight, letter-spacing at 52 px
 NAME_TC_FONT = ("Sans TC", "500")
-ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science · Oct 2026–")
+ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science")
 COMMAND = "evals run --subject chen-yang-su"
 ROWS = [  # (call, result) printed by the trace, one per line
     ("focus()", "AI agents for science · outcome-graded evals"),
@@ -136,11 +139,22 @@ def link_button(name):
     (ASSETS / "links" / f"{name}.svg").write_text(s.render())
 
 
+def stamp_readme():
+    """Append ?v=<content hash> to each asset link in README.md, so browsers and GitHub's
+    5-minute image cache fetch the new file as soon as it changes."""
+    def stamp(m):
+        digest = hashlib.sha1((ASSETS / m.group(1)).read_bytes()).hexdigest()[:8]
+        return f"assets/{m.group(1)}?v={digest}"
+    text = README.read_text(encoding="utf-8")
+    README.write_text(re.sub(r"assets/([\w/-]+\.svg)(?:\?v=[0-9a-f]+)?", stamp, text), encoding="utf-8")
+
+
 if __name__ == "__main__":
     (ASSETS / "links").mkdir(parents=True, exist_ok=True)
     hero()
     hero_mobile()
     for name in LINKS:
         link_button(name)
+    stamp_readme()
     for f in sorted(ASSETS.rglob("*.svg")):
         print(f"{f.relative_to(ASSETS.parent)}  {f.stat().st_size / 1024:.1f} KB")
