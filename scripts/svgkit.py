@@ -71,7 +71,7 @@ class Svg:
         return width(s, family, weight, size, tracking)
 
     def chars(self, family, weight, text):
-        """Register text drawn by hand (e.g. inside <textPath>) so its glyphs get embedded."""
+        """Register text drawn without self.text() (e.g. hand-placed characters) so its glyphs get embedded."""
         width(text, family, weight, 10)  # fails early on a missing glyph
         self.used.setdefault((family, weight), set()).update(text)
 
