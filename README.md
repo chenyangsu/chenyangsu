@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/hero-mobile.svg" />
-    <img src="assets/hero.svg" width="100%" alt="Chen-Yang Su (蘇震洋). Evals, agents and AI for science. Postdoctoral Scholar in Biomedical Data Science at Stanford. Profile drawn as an agent evaluation trace: focus, domain, stack, training and path. Result: pass." />
+    <img src="assets/hero.svg" width="100%" alt="Chen-Yang Su (蘇震洋). Evals, agents and AI for science. Postdoctoral Scholar in Biomedical Data Science at Stanford. Profile drawn as an agent evaluation trace: focus, domain, writing, training and path. Result: pass." />
   </picture>
 </p>
 

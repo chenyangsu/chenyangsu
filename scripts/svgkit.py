@@ -16,6 +16,7 @@ FONT_DIR = Path(__file__).parent / ".fonts"
 FACES = {
     "Serif Display": {"700": "Source+Serif+4:opsz,wght@60,700"},
     "Serif TC": {"500": "Noto+Serif+TC:wght@500"},
+    "Sans TC": {"500": "Noto+Sans+TC:wght@500"},
     "Lato": {"400": "Lato:wght@400"},
     "Plex Mono": {"400": "IBM+Plex+Mono:wght@400", "500": "IBM+Plex+Mono:wght@500", "600": "IBM+Plex+Mono:wght@600"},
 }
@@ -31,7 +32,7 @@ def _font(family, weight):
     if not p.exists():
         FONT_DIR.mkdir(exist_ok=True)
         spec = FACES[family][weight]
-        if family == "Serif TC":  # the full CJK font is ~10 MB; ask Google for the three glyphs we draw
+        if family.endswith(" TC"):  # the full CJK font is ~10 MB; ask Google for the three glyphs we draw
             spec += "&text=" + urllib.parse.quote("蘇震洋")
         css = urllib.request.urlopen(f"https://fonts.googleapis.com/css2?family={spec}").read().decode()
         url = re.search(r"url\((https://[^)]+)\)", css).group(1)

@@ -13,12 +13,14 @@ INK, INK2, MUTED = "#f0f3f6", "#c9d1d9", "#7d8590"
 BLUE, GREEN, GOLD = "#79b0ff", "#56d364", "#e3b341"
 
 NAME, NAME_TC, TAGLINE = "Chen-Yang Su", "蘇震洋", "Evals · Agents · AI for Science"
+NAME_FONT = ("Serif Display", "700", -0.5)  # family, weight, letter-spacing at 52 px
+NAME_TC_FONT = ("Serif TC", "500")
 ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science · Oct 2026–")
 COMMAND = "evals run --subject chen-yang-su"
 ROWS = [  # (call, result) printed by the trace, one per line
     ("focus()", "AI agents for science · outcome-graded evals"),
     ("domain()", "human genetics · proteomics · drug targets"),
-    ("stack()", "Python · R · PyTorch · vLLM · Claude API"),
+    ("writing()", "essays on luck, rejection and ambition"),
     ("training()", "PhD & MSc, McGill · RL at Mila"),
     ("path()", "Kaohsiung → Vancouver → Montréal → Palo Alto"),
 ]
@@ -37,8 +39,10 @@ def hero():
     s.text(976, 25, "trial 1 of 1", "Plex Mono", "400", 13, MUTED, anchor="end")
 
     # identity, left
-    s.text(40, 158, NAME, "Serif Display", "700", 52, INK, tracking=-0.5)
-    s.text(42, 200, NAME_TC, "Serif TC", "500", 26, MUTED)
+    fam, wt, tr = NAME_FONT
+    name_size = min(52, 52 * 350 / width(NAME, fam, wt, 52, tr))  # wide faces shrink to stay left of the divider
+    s.text(40, 158, NAME, fam, wt, round(name_size, 1), INK, tracking=tr)
+    s.text(42, 200, NAME_TC, *NAME_TC_FONT, 26, MUTED)
     s.text(42, 242, TAGLINE, "Plex Mono", "500", 15, BLUE)
     s.text(42, 282, ROLE[0], "Lato", "400", 15.5, INK2)
     s.text(42, 305, ROLE[1], "Lato", "400", 15.5, INK2)
@@ -90,8 +94,10 @@ def hero_mobile():
     s.add(f'<rect x="1" y="36" width="{W - 2}" height="1" fill="{LINE}"/>')
     s.text(PAD, 23, "~/chenyangsu", "Plex Mono", "500", 12, INK2)
     s.text(W - PAD, 23, "trial 1 of 1", "Plex Mono", "400", 12, MUTED, anchor="end")
-    w = s.text(PAD - 1, 92, NAME, "Serif Display", "700", 38, INK, tracking=-0.4)
-    s.text(PAD + w + 10, 91, NAME_TC, "Serif TC", "500", 20, MUTED)
+    fam, wt, tr = NAME_FONT
+    name_size = min(38, 38 * 262 / width(NAME, fam, wt, 38, tr))
+    w = s.text(PAD - 1, 92, NAME, fam, wt, round(name_size, 1), INK, tracking=tr)
+    s.text(PAD + w + 10, 91, NAME_TC, *NAME_TC_FONT, 20, MUTED)
     s.text(PAD, 124, TAGLINE, "Plex Mono", "500", 13.5, BLUE)
     s.text(PAD, 154, ROLE[0], "Lato", "400", 14.5, INK2)
     s.text(PAD, 175, ROLE[1], "Lato", "400", 14.5, INK2)
