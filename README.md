@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/hero-mobile.svg" />
-    <img src="assets/hero.svg" width="100%" alt="Chen-Yang Su (蘇震洋). Evals, agents and AI for science. Postdoctoral Scholar in Biomedical Data Science at Stanford. The banner is drawn as an agent evaluation run over his profile: focus, domain, stack, training and path, ending in a pass." />
+    <img src="assets/hero.svg" width="100%" alt="Chen-Yang Su (蘇震洋). Evals, agents and AI for science. Postdoctoral Scholar in Biomedical Data Science at Stanford. Profile drawn as an agent evaluation trace: focus, domain, stack, training and path. Result: pass." />
   </picture>
 </p>
 
@@ -14,12 +14,12 @@
   <a href="https://chenyangsu.github.io/#contact"><img src="assets/links/email.svg" height="32" alt="Email" /></a>
 </p>
 
-I build AI agents that do scientific work, and the evaluations that test them. I started in machine learning, with inverse reinforcement learning at Mila, then spent my PhD at McGill on human genetics and proteomics. Papers and talks are on [my website](https://chenyangsu.github.io).
+I build AI agents that do scientific work and the evaluations that test them. I started in machine learning with inverse reinforcement learning at Mila. I spent my PhD at McGill on human genetics and proteomics. Papers and talks are on [my website](https://chenyangsu.github.io).
 
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/classes-mobile.svg" />
-    <img src="assets/classes.svg" width="100%" alt="Three pixel-art RPG class cards. Main class: Agents and Evals (Artificer, a robot), building agents that query databases, read papers and act in simulated clinical records. Subclass: Human Genetics (Alchemist, a DNA helix), turning GWAS and plasma proteomics into ranked drug targets. Side quest: Teaching and Service (Sage, an open book), teaching AI for multi-omics data and Mendelian randomization workshops." />
+    <img src="assets/classes.svg" width="100%" alt="Three pixel-art RPG cards: main class Agents and Evals as Artificer (robot); subclass Human Genetics as Alchemist (DNA helix); side quest Teaching and Service as Sage (open book). Agents act in simulated clinical records." />
   </picture>
 </p>
 
@@ -31,4 +31,4 @@ I build AI agents that do scientific work, and the evaluations that test them. I
   </picture>
 </p>
 
-<p align="center"><sub>Born in Kaohsiung. Grew up in Taiwan, Texas, Washington and British Columbia, and trained in Montréal. I speak English, Mandarin and Taiwanese.</sub></p>
+<p align="center"><sub>I was born in Kaohsiung. I grew up in Taiwan, Texas, Washington and British Columbia. I trained in Montréal. I speak English, Mandarin and Taiwanese.</sub></p>
