@@ -54,13 +54,13 @@ Recorded: [National Taiwan University, 2025](https://www.youtube.com/watch?v=6HU
 ## Background
 
 <table>
-  <tr><td><code>2026–</code></td><td><strong>Stanford University</strong></td><td>Postdoctoral Scholar, Biomedical Data Science</td></tr>
-  <tr><td><code>2026</code></td><td><strong>University of Wisconsin–Madison</strong></td><td>Postdoctoral Fellow, Population Health Sciences, with Tianyuan Lu</td></tr>
-  <tr><td><code>2026</code></td><td><strong>McGill University</strong></td><td>Postdoctoral Fellow, Human Genetics</td></tr>
-  <tr><td><code>2022–2025</code></td><td><strong>McGill University</strong></td><td>PhD, Quantitative Life Sciences, with Sirui Zhou</td></tr>
-  <tr><td><code>2022</code></td><td><strong>Hinge Health</strong></td><td>Data Science Intern, Computer Vision Science</td></tr>
-  <tr><td><code>2020–2022</code></td><td><strong>McGill University · Mila</strong></td><td>MSc, Computer Science, with Joelle Pineau and Brent Richards</td></tr>
-  <tr><td><code>2016–2020</code></td><td><strong>McGill University</strong></td><td>BSc, Computer Science and Biology</td></tr>
+  <tr><td width="18%"><code>2026–</code></td><td><strong>Stanford University</strong> · Postdoctoral Scholar, Biomedical Data Science</td></tr>
+  <tr><td width="18%"><code>2026</code></td><td><strong>University of Wisconsin–Madison</strong> · Postdoctoral Fellow, Population Health Sciences, with Tianyuan Lu</td></tr>
+  <tr><td width="18%"><code>2026</code></td><td><strong>McGill University</strong> · Postdoctoral Fellow, Human Genetics</td></tr>
+  <tr><td width="18%"><code>2022–&#8288;2025</code></td><td><strong>McGill University</strong> · PhD, Quantitative Life Sciences, with Sirui Zhou</td></tr>
+  <tr><td width="18%"><code>2022</code></td><td><strong>Hinge Health</strong> · Data Science Intern, Computer Vision Science</td></tr>
+  <tr><td width="18%"><code>2020–&#8288;2022</code></td><td><strong>McGill University and Mila</strong> · MSc, Computer Science, with Joelle Pineau and Brent Richards</td></tr>
+  <tr><td width="18%"><code>2016–&#8288;2020</code></td><td><strong>McGill University</strong> · BSc, Computer Science and Biology</td></tr>
 </table>
 
 <details>
