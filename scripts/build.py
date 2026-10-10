@@ -12,6 +12,8 @@ BG, BAR, LINE = "#0b0f15", "#10161e", "#222a35"
 INK, INK2, MUTED = "#f0f3f6", "#c9d1d9", "#7d8590"
 BLUE, GREEN, GOLD = "#79b0ff", "#56d364", "#e3b341"
 
+NAME, NAME_TC, TAGLINE = "Chen-Yang Su", "蘇震洋", "Evals · Agents · AI for Science"
+ROLE = ("Postdoctoral Scholar, Stanford", "Biomedical Data Science · Oct 2026–")
 COMMAND = "evals run --subject chen-yang-su"
 ROWS = [  # (call, result) printed by the trace, one per line
     ("focus()", "AI agents for science · outcome-graded evals"),
@@ -22,12 +24,12 @@ ROWS = [  # (call, result) printed by the trace, one per line
 ]
 VERDICT = f"{len(ROWS)}/{len(ROWS)} checks · graded on end state"
 
-LINKS = ["website", "blog", "scholar", "orcid", "linkedin", "x", "bluesky"]
+LINKS = ["website", "blog", "linkedin", "x", "bluesky", "email"]
 
 # The three class cards: (tag, title, class, colour, sprite, flavour text, abilities)
 CLASSES = [
     ("MAIN CLASS", "Agents & Evals", "Artificer", BLUE, "robot",
-     "Builds agents that query databases, read papers and act in clinical records.",
+     "Builds agents that query databases, read papers and act in simulated clinical records.",
      ["Tool-calling agents", "Outcome-graded evals", "Bootstrapped CIs"]),
     ("SUBCLASS", "Human Genetics", "Alchemist", GREEN, "helix",
      "Turns GWAS and plasma proteomics into ranked drug targets.",
@@ -83,12 +85,7 @@ PIXEL = {"k": "#05080c", "y": GOLD, "b": BLUE, "B": "#3b78c9", "d": "#0b1a2e", "
 def hero():
     s = Svg(1000, 400, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
                        "Biomedical Data Science. Drawn as an agent evaluation trace over his profile.")
-    s.css.append(
-        ".l{opacity:0;animation:in .35s ease-out forwards}"
-        "@keyframes in{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}"
-        ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
-        "@media (prefers-reduced-motion:reduce){.l{animation:none;opacity:1}.cur{animation:none}}"
-    )
+    s.css.append(TRACE_CSS)
     s.add(f'<rect x="0.5" y="0.5" width="999" height="399" rx="12" fill="{BG}" stroke="{LINE}"/>')
     s.add(f'<path d="M12.5 .5h975a12 12 0 0 1 12 12v27.5H.5V12.5a12 12 0 0 1 12-12z" fill="{BAR}"/>')
     s.add(f'<rect x="1" y="40" width="998" height="1" fill="{LINE}"/>')
@@ -96,11 +93,11 @@ def hero():
     s.text(976, 25, "trial 1 of 1", "Plex Mono", "400", 13, MUTED, anchor="end")
 
     # identity, left
-    s.text(40, 128, "Chen-Yang Su", "Serif Display", "700", 52, INK, tracking=-0.5)
-    s.text(42, 170, "蘇震洋", "Serif TC", "500", 26, MUTED)
-    s.text(42, 212, "Evals · Agents · AI for Science", "Plex Mono", "500", 15, BLUE)
-    s.text(42, 252, "Postdoctoral Scholar, Stanford", "Lato", "400", 15.5, INK2)
-    s.text(42, 275, "Biomedical Data Science", "Lato", "400", 15.5, INK2)
+    s.text(40, 158, NAME, "Serif Display", "700", 52, INK, tracking=-0.5)
+    s.text(42, 200, NAME_TC, "Serif TC", "500", 26, MUTED)
+    s.text(42, 242, TAGLINE, "Plex Mono", "500", 15, BLUE)
+    s.text(42, 282, ROLE[0], "Lato", "400", 15.5, INK2)
+    s.text(42, 305, ROLE[1], "Lato", "400", 15.5, INK2)
     s.add(f'<rect x="420" y="72" width="1" height="296" fill="{LINE}"/>')
 
     # trace, right: lines fade in one after another
@@ -235,6 +232,96 @@ def party():
     (ASSETS / "classes.svg").write_text(s.render())
 
 
+TRACE_CSS = (".l{opacity:0;animation:in .35s ease-out forwards}"
+             "@keyframes in{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}"
+             ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
+             "@media (prefers-reduced-motion:reduce){.l{animation:none;opacity:1}.cur{animation:none}}")
+
+
+def hero_mobile():
+    """Portrait hero for phone widths: identity on top, each trace result under its call."""
+    W, PAD, size = 380, 20, 12.5
+    rows_h = len(ROWS) * 46
+    H = 262 + rows_h + 78
+    s = Svg(W, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
+                  "Biomedical Data Science. Drawn as an agent evaluation trace over his profile.")
+    s.css.append(TRACE_CSS)
+    s.add(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="12" fill="{BG}" stroke="{LINE}"/>')
+    s.add(f'<path d="M12.5 .5h{W - 25}a12 12 0 0 1 12 12v23.5H.5V12.5a12 12 0 0 1 12-12z" fill="{BAR}"/>')
+    s.add(f'<rect x="1" y="36" width="{W - 2}" height="1" fill="{LINE}"/>')
+    s.text(PAD, 23, "~/chenyangsu", "Plex Mono", "500", 12, INK2)
+    s.text(W - PAD, 23, "trial 1 of 1", "Plex Mono", "400", 12, MUTED, anchor="end")
+    w = s.text(PAD - 1, 92, NAME, "Serif Display", "700", 38, INK, tracking=-0.4)
+    s.text(PAD + w + 10, 91, NAME_TC, "Serif TC", "500", 20, MUTED)
+    s.text(PAD, 124, TAGLINE, "Plex Mono", "500", 13.5, BLUE)
+    s.text(PAD, 154, ROLE[0], "Lato", "400", 14.5, INK2)
+    s.text(PAD, 175, ROLE[1], "Lato", "400", 14.5, INK2)
+    s.add(f'<rect x="{PAD}" y="198" width="{W - 2 * PAD}" height="1" fill="{LINE}"/>')
+    y = 232
+    s.add('<g class="l" style="animation-delay:.2s">')
+    w = s.text(PAD, y, "$", "Plex Mono", "600", size, GREEN)
+    s.text(PAD + w + 8, y, COMMAND, "Plex Mono", "400", size, INK)
+    s.add("</g>")
+    for i, (call, result) in enumerate(ROWS):
+        yy = y + 30 + i * 46
+        s.add(f'<g class="l" style="animation-delay:{0.7 + i * 0.45:.2f}s">')
+        s.add(f'<circle cx="{PAD + 4}" cy="{yy - 4}" r="3.5" fill="{GOLD}"/>')
+        s.text(PAD + 16, yy, call, "Plex Mono", "500", size, BLUE)
+        rw = s.text(PAD + 16, yy + 19, result, "Plex Mono", "400", 12, INK2)
+        assert PAD + 16 + rw <= W - PAD + 4, f"mobile trace overflows: {result}"
+        s.add("</g>")
+    yy = y + 30 + len(ROWS) * 46 + 4
+    s.add(f'<g class="l" style="animation-delay:{0.9 + len(ROWS) * 0.45:.2f}s">')
+    s.add(f'<rect x="{PAD}" y="{yy - 16}" width="50" height="23" rx="4" fill="#12301c"/>')
+    s.text(PAD + 25, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
+    s.text(PAD + 62, yy, VERDICT, "Plex Mono", "400", 12, MUTED)
+    s.add("</g>")
+    s.add(f'<rect class="cur" x="{PAD}" y="{yy + 18}" width="8" height="16" fill="{INK2}"/>')
+    (ASSETS / "hero-mobile.svg").write_text(s.render())
+
+
+def party_mobile():
+    """The three class cards stacked, sprite on the left, for phone widths."""
+    W, SHADOW, GAP, size = 380, 5, 18, 12
+    TX = 112  # left edge of the text column
+    cards, y0 = [], 1
+    for tag, title, cls, colour, art, flavour, abilities in CLASSES:
+        lines = wrap(flavour, "Plex Mono", "400", size, W - SHADOW - TX - 18)
+        h = 72 + len(lines) * 17 + 10 + len(abilities) * 19 + 12
+        cards.append((y0, h, tag, title, cls, colour, art, lines, abilities))
+        y0 += h + GAP
+    s = Svg(W, y0 - GAP + SHADOW + 1, "Three pixel-art RPG class cards: main class Agents and Evals (Artificer), "
+                                      "subclass Human Genetics (Alchemist), side quest Teaching and Service (Sage).")
+    s.css.append(".bob{animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-4px)}}"
+                 "@media (prefers-reduced-motion:reduce){.bob{animation:none}}")
+    for k, (top, h, tag, title, cls, colour, art, lines, abilities) in enumerate(cards):
+        cw = W - SHADOW - 1
+        s.add(f'<path d="{notched(1 + SHADOW, top + SHADOW, cw, h, 5)}" fill="#000" opacity=".35"/>')
+        s.add(f'<path d="{notched(1, top, cw, h, 5)}" fill="#121a24" stroke="{colour}" stroke-width="3"/>')
+        # tag and sprite in the left column
+        tw = width(tag, "Plex Mono", "600", 10.5, 1) + 14
+        s.add(f'<rect x="{56 - tw / 2:.1f}" y="{top + 14}" width="{tw:.1f}" height="19" fill="{colour}"/>')
+        s.text(56, top + 27.5, tag, "Plex Mono", "600", 10.5, "#0b0f15", anchor="middle", tracking=1)
+        s.add(f'<circle cx="56" cy="{top + 78}" r="38" fill="{colour}" opacity=".12"/>')
+        s.add(f'<g class="bob" style="animation-delay:{k * 0.4}s">')
+        sprite(s, 24, top + 46, helix() if art == "helix" else SPRITES[art], 4)
+        s.add("</g>")
+        # text column
+        s.text(TX, top + 34, title, "Pixel", "700", 19, INK)
+        s.text(TX, top + 54, f"class · {cls}", "Plex Mono", "500", size, colour)
+        y = top + 78
+        for line in lines:
+            s.text(TX, y, line, "Plex Mono", "400", size, INK2)
+            y += 17
+        y += 6
+        for a in abilities:
+            s.add(f'<path d="M{TX + 4} {y - 9}l4 4-4 4-4-4z" fill="{colour}"/>')
+            aw = s.text(TX + 14, y, a, "Plex Mono", "500", size, INK)
+            assert TX + 14 + aw <= cw - 10, f"mobile ability too wide: {a}"
+            y += 19
+    (ASSETS / "classes-mobile.svg").write_text(s.render())
+
+
 def link_button(name):
     """A CLI flag drawn as a button, e.g. --scholar; matches the hero's card."""
     size, pad, h = 14, 13, 32
@@ -249,7 +336,9 @@ def link_button(name):
 if __name__ == "__main__":
     (ASSETS / "links").mkdir(parents=True, exist_ok=True)
     hero()
+    hero_mobile()
     party()
+    party_mobile()
     for name in LINKS:
         link_button(name)
     for f in sorted(ASSETS.rglob("*.svg")):
