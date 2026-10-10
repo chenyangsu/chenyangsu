@@ -70,6 +70,11 @@ class Svg:
                  f'font-size="{size}" fill="{fill}" text-anchor="{anchor}"{ls}>{html.escape(s)}</text>')
         return width(s, family, weight, size, tracking)
 
+    def chars(self, family, weight, text):
+        """Register text drawn by hand (e.g. inside <textPath>) so its glyphs get embedded."""
+        width(text, family, weight, 10)  # fails early on a missing glyph
+        self.used.setdefault((family, weight), set()).update(text)
+
     def _fontfaces(self):
         rules = []
         for (family, weight), chars in sorted(self.used.items()):

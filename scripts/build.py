@@ -2,8 +2,10 @@
 
 Every fact drawn here is taken from chenyangsu.github.io; edit ROWS or LINKS, rerun, commit the SVGs.
 """
+import html
 from pathlib import Path
 
+import icons
 from svgkit import Svg, width
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
@@ -30,11 +32,102 @@ VERDICT = f"{len(ROWS)}/{len(ROWS)} checks · graded on end state"
 def lines(result):
     return (result,) if isinstance(result, str) else result
 
-LINKS = ["website", "blog", "linkedin", "x", "bluesky", "email"]
+
+# typed at the cursor once the trace has finished, one after another, forever
+QUOTES = [  # Silicon Valley founders, each with a documented source
+    ("Make something people want.", "Paul Graham"),
+    ("Stay hungry. Stay foolish.", "Steve Jobs"),
+    ("It's time to build.", "Marc Andreessen"),
+    ("Do things that don't scale.", "Paul Graham"),
+    ("The biggest risk is not taking any risk.", "Mark Zuckerberg"),
+    ("Real artists ship.", "Steve Jobs"),
+    ("Only the paranoid survive.", "Andy Grove"),
+    ("Live in the future, then build what's missing.", "Paul Graham"),
+    ("Competition is for losers.", "Peter Thiel"),
+]
+QUOTE_START = 3.6  # seconds, once the PASS line is in
+TYPE, HOLD, ERASE, GAP = 0.05, 2.8, 0.016, 0.5  # per character, pause, per character, pause
+
+
+def quote_loop(s, x, baselines, size, cursor, one_line):
+    """Type, hold and erase each quote at the cursor, looping forever. Uses SMIL (<animate>), which
+    GitHub's image viewer runs: each character sits at a fixed x, and a clip rectangle widens one
+    character at a time, so font hinting at small sizes cannot shift or hide characters.
+    one_line: "quote — author" at baselines[0]; otherwise the author goes on a second line.
+    cursor: (width, height, rise above the baseline)."""
+    cw = width("M", "Plex Mono", "400", size)
+    quotes = [[f"{q} — {a}"] if one_line else [q, f"— {a}"] for q, a in QUOTES]
+
+    # frames: (time, quote index, characters shown on each line); each holds until the next
+    frames, t = [(0.0, None, ())], 0.0
+    for i, ls in enumerate(quotes):
+        def shown(k):
+            out = []
+            for line in ls:
+                out.append(min(k, len(line)))
+                k -= out[-1]
+            return tuple(out)
+        n = sum(map(len, ls))
+        frames += [(t + k * TYPE, i, shown(k)) for k in range(1, n + 1)]
+        t += n * TYPE + HOLD
+        frames += [(t + (n - k) * ERASE, i, shown(k)) for k in range(n - 1, -1, -1)]
+        t += n * ERASE + GAP
+    T = t
+
+    def animate(attr, series):
+        """series: [(time, value)]; keep only the frames where the value changes."""
+        kept = [series[0]] + [b for a, b in zip(series, series[1:]) if b[1] != a[1]]
+        return (f'<animate attributeName="{attr}" calcMode="discrete" begin="{QUOTE_START}s" dur="{T:.3f}s" '
+                f'repeatCount="indefinite" keyTimes="{";".join(f"{tt / T:.5f}" for tt, _ in kept)}" '
+                f'values="{";".join(str(v) for _, v in kept)}"/>')
+
+    s.add('<g class="q">')
+    for i, ls in enumerate(quotes):
+        for j, line in enumerate(ls):
+            cid = f"q{i}_{j}"
+            series = [(tt, f"{(c[j] if qi == i else 0) * cw:.1f}") for tt, qi, c in frames]
+            s.add(f'<clipPath id="{cid}"><rect x="{x}" y="{baselines[j] - size}" width="0" height="{size * 1.5}">'
+                  f'{animate("width", series)}</rect></clipPath>')
+            # quote in ink, author muted; on one line the author follows " — "
+            parts = line.split(" — ") if one_line else [line]
+            k = 0
+            for n, part in enumerate(parts):
+                text = (" — " if n else "") + part
+                muted = n > 0 or text.startswith("— ")
+                xs = " ".join(f"{x + (k + m) * cw:.1f}" for m in range(len(text)))
+                s.chars("Plex Mono", "400", text)
+                s.add(f'<text x="{xs}" y="{baselines[j]}" font-family="&apos;Plex Mono&apos;" font-weight="400" '
+                      f'font-size="{size}" fill="{MUTED if muted else INK}" clip-path="url(#{cid})" xml:space="preserve">'
+                      f'{html.escape(text)}</text>')
+                k += len(text)
+            assert x + len(line) * cw <= s.w - 18, f"quote too wide for the card: {line}"
+    # the cursor rides at the end of the text being typed
+    cwid, chgt, rise = cursor
+
+    def at(c):
+        active = max([j for j, k in enumerate(c) if k] or [0])
+        return x + (c[active] if c else 0) * cw, baselines[active] - rise
+    xs = [(tt, f"{at(c)[0]:.1f}") for tt, _, c in frames]
+    ys = [(tt, f"{at(c)[1]:.1f}") for tt, _, c in frames]
+    s.add(f'<rect class="cur" x="{x}" y="{baselines[0] - rise}" width="{cwid}" height="{chgt}" fill="{INK2}">'
+          f'{animate("x", xs)}{animate("y", ys)}</rect>')
+    s.add("</g>")
+    # reduced motion: no typing, just the resting cursor
+    s.add(f'<rect class="rm" x="{x}" y="{baselines[0] - rise}" width="{cwid}" height="{chgt}" fill="{INK2}"/>')
+
+LINKS = {  # button -> its colour; order is the order in the README
+    "website": "#39c5cf",
+    "blog": GOLD,
+    "linkedin": "#4c8dff",
+    "x": INK,
+    "bluesky": "#5cc8ff",
+    "email": GREEN,
+}
 
 def hero():
     s = Svg(1000, 400, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
-                       "Biomedical Data Science. Drawn as an agent evaluation trace over his profile.")
+                       "Biomedical Data Science. Drawn as an agent evaluation trace over his profile, then the cursor "
+                       "types short motivational quotes.")
     s.css.append(TRACE_CSS)
     s.add(f'<rect x="0.5" y="0.5" width="999" height="399" rx="12" fill="{BG}" stroke="{LINE}"/>')
     s.add(f'<path d="M12.5 .5h975a12 12 0 0 1 12 12v27.5H.5V12.5a12 12 0 0 1 12-12z" fill="{BAR}"/>')
@@ -79,23 +172,25 @@ def hero():
     s.text(x0 + 28, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
     s.text(x0 + 70, yy, VERDICT, "Plex Mono", "400", size, MUTED)
     s.add("</g>")
-    s.add(f'<rect class="cur" x="{x0}" y="{yy + 22}" width="9" height="18" fill="{INK2}"/>')
+    quote_loop(s, x0, [yy + 36], size, (9, 18, 14), one_line=True)
     (ASSETS / "hero.svg").write_text(s.render())
 
 
 TRACE_CSS = (".l{opacity:0;animation:in .35s ease-out forwards}"
              "@keyframes in{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}"
              ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
-             "@media (prefers-reduced-motion:reduce){.l{animation:none;opacity:1}.cur{animation:none}}")
+             ".rm{display:none}"
+             "@media (prefers-reduced-motion:reduce){.l{animation:none;opacity:1}.q{display:none}.rm{display:inline}}")
 
 
 def hero_mobile():
     """Portrait hero for phone widths: identity on top, each trace result under its call."""
     W, PAD, size = 380, 20, 12.5
     rows_h = sum(46 + 19 * (len(lines(r)) - 1) for _, r in ROWS)
-    H = 262 + rows_h + 78
+    H = 262 + rows_h + 100
     s = Svg(W, H, "Chen-Yang Su (蘇震洋). Evals, agents, AI for science. Postdoctoral Scholar, Stanford "
-                  "Biomedical Data Science. Drawn as an agent evaluation trace over his profile.")
+                  "Biomedical Data Science. Drawn as an agent evaluation trace over his profile, then the cursor "
+                       "types short motivational quotes.")
     s.css.append(TRACE_CSS)
     s.add(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="12" fill="{BG}" stroke="{LINE}"/>')
     s.add(f'<path d="M12.5 .5h{W - 25}a12 12 0 0 1 12 12v23.5H.5V12.5a12 12 0 0 1 12-12z" fill="{BAR}"/>')
@@ -131,18 +226,32 @@ def hero_mobile():
     s.text(PAD + 25, yy, "PASS", "Plex Mono", "600", size, GREEN, anchor="middle")
     s.text(PAD + 62, yy, VERDICT, "Plex Mono", "400", 12, MUTED)
     s.add("</g>")
-    s.add(f'<rect class="cur" x="{PAD}" y="{yy + 18}" width="8" height="16" fill="{INK2}"/>')
+    quote_loop(s, PAD, [yy + 31, yy + 50], 11.5, (8, 16, 12), one_line=False)
     (ASSETS / "hero-mobile.svg").write_text(s.render())
 
 
-def link_button(name):
-    """A CLI flag drawn as a button, e.g. --scholar; matches the hero's card."""
-    size, pad, h = 14, 13, 32
-    w = pad * 2 + width("--" + name, "Plex Mono", "500", size)
+def link_button(name, colour):
+    """A CLI flag drawn as a button, e.g. --blog, with its own colour and icon."""
+    size, h, icon = 14, 32, 15
+    w = 11 + icon + 8 + width("--" + name, "Plex Mono", "500", size) + 13
     s = Svg(round(w), h, name)
-    s.add(f'<rect x="0.5" y="0.5" width="{round(w) - 1}" height="{h - 1}" rx="6" fill="{BG}" stroke="#30363d"/>')
-    dash = s.text(pad, 21, "--", "Plex Mono", "500", size, MUTED)
-    s.text(pad + dash, 21, name, "Plex Mono", "500", size, INK2)
+    s.add(f'<rect x="0.5" y="0.5" width="{round(w) - 1}" height="{h - 1}" rx="6" fill="{BG}"/>')
+    s.add(f'<rect x="0.5" y="0.5" width="{round(w) - 1}" height="{h - 1}" rx="6" fill="{colour}" '
+          f'fill-opacity=".08" stroke="{colour}" stroke-opacity=".55"/>')
+    # icon, drawn from 24x24 artwork scaled to `icon` px
+    k = icon / 24
+    t = f'translate(11 {(h - icon) / 2}) scale({k:.4f})'
+    if name in icons.FILLED:
+        s.add(f'<path transform="{t}" d="{icons.FILLED[name]}" fill="{colour}"/>')
+    elif name in icons.STROKED:
+        s.add(f'<g transform="{t}" fill="none" stroke="{colour}" stroke-width="2.2" stroke-linecap="round" '
+              f'stroke-linejoin="round">{icons.STROKED[name]}</g>')
+    else:  # linkedin: an "in" badge
+        s.add(f'<rect x="11" y="{(h - icon) / 2}" width="{icon}" height="{icon}" rx="3" fill="{colour}"/>')
+        s.text(11 + icon / 2, h / 2 + 4, "in", "Geist", "700", 10.5, BG, anchor="middle")
+    x = 11 + icon + 8
+    dash = s.text(x, 21, "--", "Plex Mono", "500", size, MUTED)
+    s.text(x + dash, 21, name, "Plex Mono", "500", size, colour)
     (ASSETS / "links" / f"{name}.svg").write_text(s.render())
 
 
@@ -150,7 +259,7 @@ if __name__ == "__main__":
     (ASSETS / "links").mkdir(parents=True, exist_ok=True)
     hero()
     hero_mobile()
-    for name in LINKS:
-        link_button(name)
+    for name, colour in LINKS.items():
+        link_button(name, colour)
     for f in sorted(ASSETS.rglob("*.svg")):
         print(f"{f.relative_to(ASSETS.parent)}  {f.stat().st_size / 1024:.1f} KB")
