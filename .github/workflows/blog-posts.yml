@@ -1,0 +1,22 @@
+name: latest blog posts
+
+# Every hour: rewrite the list between the BLOG-POST-LIST markers in README.md from the blog's RSS
+# feed. The action commits only when the list changes.
+on:
+  schedule:
+    - cron: "47 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: gautamkrishnar/blog-post-workflow@v1
+        with:
+          feed_list: "https://chenyangsu.github.io/blog/feed.xml"
+          max_post_count: 5
