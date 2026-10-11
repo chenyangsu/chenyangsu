@@ -55,4 +55,6 @@
 
 ### Philosophy
 
-> "Commit to the problem, and treat each solution as a hypothesis you are ready to drop." That is also why I build evals: an agent's answer stays a hypothesis until something checks it.
+> "Seek uncertainty when the downside is survivable, the upside is meaningful, and the outcome will teach you something."
+>
+> "Creating value and capturing value are two different problems."
