@@ -28,11 +28,11 @@
 ## Latest Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [When AI agents bypass the middleman](https://chenyangsu.github.io/blog/when-ai-agents-bypass-the-middleman/)
 - [When the buyer has an agent](https://chenyangsu.github.io/blog/when-the-buyer-has-an-agent/)
 - [How to get luckier](https://chenyangsu.github.io/blog/how-to-get-luckier/)
 - [Rejection is data](https://chenyangsu.github.io/blog/rejection-is-data/)
 - [How to know when to change course](https://chenyangsu.github.io/blog/how-to-know-when-to-change-course/)
-- [What are the important problems in your field?](https://chenyangsu.github.io/blog/what-are-the-important-problems-in-your-field/)
 <!-- BLOG-POST-LIST:END -->
 
 ---
