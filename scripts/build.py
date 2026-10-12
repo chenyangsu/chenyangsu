@@ -159,8 +159,9 @@ TYPE, HOLD, ERASE, GAP = 0.05, 2.8, 0.016, 0.5  # per character, pause, per char
 
 def quote_loop(s, x, baselines, size, cursor, join_author):
     """Type, hold and erase each quote at the cursor, looping forever. Uses SMIL (<animate>), which
-    GitHub's image viewer runs: each character sits at a fixed x, and a clip rectangle widens one
-    character at a time, so font hinting at small sizes cannot shift or hide characters.
+    GitHub's image viewer runs: each character sits at a fixed x, and a card-coloured cover slides right one
+    character at a time, so font hinting at small sizes cannot shift or hide characters. No clip paths:
+    WebKit (every iPhone browser, the GitHub iOS app) draws text unclipped when its clip misses it.
     Quotes wrap to fit the card; the author follows " — " on the same line when join_author and it fits,
     otherwise it gets its own line. cursor: (width, height, rise above the baseline)."""
     cw = width("M", "Plex Mono", "400", size)
@@ -197,11 +198,9 @@ def quote_loop(s, x, baselines, size, cursor, join_author):
 
     s.add('<g class="q">')
     for i, ls in enumerate(quotes):
+        # only the quote being typed is visible
+        s.add(f'<g visibility="hidden">{animate("visibility", [(tt, "visible" if qi == i else "hidden") for tt, qi, _ in frames])}')
         for j, line in enumerate(ls):
-            cid = f"q{i}_{j}"
-            series = [(tt, f"{(c[j] if qi == i else 0) * cw:.1f}") for tt, qi, c in frames]
-            s.add(f'<clipPath id="{cid}"><rect x="{x}" y="{baselines[j] - size}" width="0" height="{size * 1.5}">'
-                  f'{animate("width", series)}</rect></clipPath>')
             # quote in ink, author muted; on a joined line the author follows " — "
             parts = [line] if line.startswith("— ") else line.split(" — ")
             k = 0
@@ -211,9 +210,17 @@ def quote_loop(s, x, baselines, size, cursor, join_author):
                 xs = " ".join(f"{x + (k + m) * cw:.1f}" for m in range(len(text)))
                 s.chars("Plex Mono", "400", text)
                 s.add(f'<text x="{xs}" y="{baselines[j]}" font-family="&apos;Plex Mono&apos;" font-weight="400" '
-                      f'font-size="{size}" fill="{MUTED if muted else INK}" clip-path="url(#{cid})" xml:space="preserve">'
+                      f'font-size="{size}" fill="{MUTED if muted else INK}" xml:space="preserve">'
                       f'{html.escape(text)}</text>')
                 k += len(text)
+        s.add("</g>")
+    # a card-coloured cover per line hides what is not typed yet; its left edge follows the typing
+    right = x + max_chars * cw + 1
+    for j, b in enumerate(baselines):
+        left = [(tt, x + (c[j] if j < len(c) else 0) * cw) for tt, _, c in frames]
+        s.add(f'<rect x="{x}" y="{b - size}" width="{right - x:.1f}" height="{size * 1.5}" fill="{BG}">'
+              f'{animate("x", [(tt, f"{v:.1f}") for tt, v in left])}'
+              f'{animate("width", [(tt, f"{right - v:.1f}") for tt, v in left])}</rect>')
     # the cursor rides at the end of the text being typed
     cwid, chgt, rise = cursor
 
