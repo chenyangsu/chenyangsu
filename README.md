@@ -28,11 +28,11 @@
 ## Latest Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [The uncomfortable truth about power: why merit alone is not enough](https://chenyangsu.github.io/blog/the-uncomfortable-truth-about-power/)
 - [The seven deadly sins of product design, and what they miss](https://chenyangsu.github.io/blog/the-seven-deadly-sins-of-product-design/)
 - [When the answer is cheap](https://chenyangsu.github.io/blog/when-the-answer-is-cheap/)
 - [When AI agents bypass the middleman](https://chenyangsu.github.io/blog/when-ai-agents-bypass-the-middleman/)
 - [When the buyer has an agent](https://chenyangsu.github.io/blog/when-the-buyer-has-an-agent/)
-- [How to get luckier](https://chenyangsu.github.io/blog/how-to-get-luckier/)
 <!-- BLOG-POST-LIST:END -->
 
 ---
