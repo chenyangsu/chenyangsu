@@ -28,11 +28,11 @@
 ## Latest Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [Your career is a startup](https://chenyangsu.github.io/blog/your-career-is-a-startup/)
 - [The end of intellectual boundaries? AI, epistemic trespassing, and the future of scientific discovery](https://chenyangsu.github.io/blog/the-end-of-intellectual-boundaries/)
 - [Who will produce the knowledge AI depends on?](https://chenyangsu.github.io/blog/who-will-produce-the-knowledge-ai-depends-on/)
 - [The uncomfortable truth about power: why merit alone is not enough](https://chenyangsu.github.io/blog/the-uncomfortable-truth-about-power/)
 - [The seven deadly sins of product design, and what they miss](https://chenyangsu.github.io/blog/the-seven-deadly-sins-of-product-design/)
-- [When the answer is cheap](https://chenyangsu.github.io/blog/when-the-answer-is-cheap/)
 <!-- BLOG-POST-LIST:END -->
 
 ---
