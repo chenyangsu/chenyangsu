@@ -28,11 +28,11 @@
 ## Latest Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [The hidden grammar of teamwork: Can AI learn how organizations work?](https://chenyangsu.github.io/blog/hidden-grammar-of-teamwork/)
 - [What happens when AI starts improving itself?](https://chenyangsu.github.io/blog/when-ai-starts-improving-itself/)
 - [When answers are cheap, what makes a person valuable?](https://chenyangsu.github.io/blog/what-makes-a-person-valuable/)
 - [Your career is a startup](https://chenyangsu.github.io/blog/your-career-is-a-startup/)
 - [The end of intellectual boundaries? AI, epistemic trespassing, and the future of scientific discovery](https://chenyangsu.github.io/blog/the-end-of-intellectual-boundaries/)
-- [Who will produce the knowledge AI depends on?](https://chenyangsu.github.io/blog/who-will-produce-the-knowledge-ai-depends-on/)
 <!-- BLOG-POST-LIST:END -->
 
 ---
