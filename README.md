@@ -40,7 +40,7 @@
 ### Recognition
 
 - **Anthropic grantee** - $50,000 USD in Claude compute credits (2026)
-- **[Biswas Family Foundation Fast Grant](https://www.biswasfamilyfoundation.org/science/fast-grants)** - $25,000 USD; the inaugural round funded 37 of 685 applications (2026)
+- **[Biswas Family Foundation Fast Grant](https://www.biswasfamilyfoundation.org/science/fast-grants)** - $25,000 USD (2026)
 - **ICLR 2021 Spotlight** (top 5.6%) - [Regularized Inverse Reinforcement Learning](https://openreview.net/forum?id=HgLO8yalfwc), from Joelle Pineau's lab at Mila
 - **XPRIZE Pandemic Response Challenge world finalist** ($500K USD prize) - with a Mila team (2021)
 - **Invited speaker** - Broad Institute of MIT and Harvard, Stanford School of Medicine, Academia Sinica, National Taiwan University ([all talks](https://chenyangsu.github.io/#talks))
