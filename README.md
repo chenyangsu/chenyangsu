@@ -28,11 +28,11 @@
 ## Latest Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [How far above the best human is a superintelligence?](https://chenyangsu.github.io/blog/how-far-above-the-best-human/)
 - [AI is making cyberattacks cheaper, faster, and more accessible](https://chenyangsu.github.io/blog/ai-is-making-cyberattacks-cheaper/)
 - [The hard part of AI in health care comes after the model works](https://chenyangsu.github.io/blog/the-hard-part-of-ai-in-health-care/)
 - [The hidden grammar of teamwork: Can AI learn how organizations work?](https://chenyangsu.github.io/blog/hidden-grammar-of-teamwork/)
 - [What happens when AI starts improving itself?](https://chenyangsu.github.io/blog/when-ai-starts-improving-itself/)
-- [When answers are cheap, what makes a person valuable?](https://chenyangsu.github.io/blog/what-makes-a-person-valuable/)
 <!-- BLOG-POST-LIST:END -->
 
 ---
