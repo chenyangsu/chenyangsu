@@ -58,3 +58,9 @@
 > "Seek uncertainty when the downside is survivable, the upside is meaningful, and the outcome will teach you something."
 >
 > "Creating value and capturing value are two different problems."
+>
+> "A genius mind goes nowhere without focus, prioritization and execution."
+>
+> "Execution is everything."
+>
+> "Stop trying to impress others and stop making excuses. Focus on doing what is asked of you, and show that you can contribute to a team."
